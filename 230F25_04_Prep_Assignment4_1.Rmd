@@ -1,0 +1,83 @@
+---
+geometry: "left=1cm,right=1cm,top=1cm,bottom=1cm"
+header-includes:
+output: pdf_document
+---
+
+```{r setup0, echo=FALSE,purl=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+**Question 1 part (a)**
+
+```{r}
+# Load the "iris" dataset to a variable called iris
+data("iris")
+# Print dataset
+iris
+# In the lab, `iris <- read.csv()` will likely be used to load a dataset in place of data()
+
+```
+
+**Question 1 part (b)**
+
+```{r}
+# This extracts the data from the `Petal.Length` variable in the `iris` dataset. 
+# The result is treated as a vector in R. 
+iris$Petal.Length
+
+```
+
+**Question 1 part (c)**
+
+```{r}
+vars <- names(iris)
+n <- length(iris$Sepal.Length)
+mean.SL <- mean(iris$Sepal.Length)
+med.SL <- median(iris$Sepal.Length)
+summary.PL <- summary(iris$Petal.Length)
+
+```
+
+**Question 1 part (d)**
+
+```{r}
+# set the plots to display in a 2 by 2 grid:
+par(mfrow = c(2, 2)) # Don't modify this line
+# Create a histogram of the `Petal.Length` variable in the `iris` dataset. Recall: `iris$Petal.Length` is the vector of data.
+hist1 <- hist(iris$Petal.Length, main = "Histogram of Petal.Length", xlab = "Petal Length")
+# Create a boxplot of the `Petal.Length` variable.
+boxplot1 <- boxplot(iris$Petal.Length, main = "Boxplot of Petal.Length", ylab = "Petal Length")
+# Create a bar plot of the `Species` variable.
+barplot1 <- barplot(table(iris$Species), main = "Bar Chart of Species", ylab = "Frequency")
+#Create a pie chart of the `Species` variable.
+pie1 <- pie(table(iris$Species), main = "Pie Chart of Species")
+# Once all four plots are ready, run the code chunk. You will be able to flip through the different plots by clicking on their specific icons below.
+
+```
+
+**Question 2 part (a)**
+
+```{r,out.width='50%'}
+sample1 <- runif(30, min = 0, max = 1)
+samples <- replicate(1000, runif(30, min = 0, max = 1))
+sample_means <- colMeans(samples)
+hist2 <- hist(sample_means, 
+              main = "Sampling Distribution of the Mean (Uniform[0,1])",
+              xlab = "Sample Means",
+              col = "skyblue", 
+              border = "white")
+
+```
+
+### Submission Instructions
+
+1.  Save this file. (Quick key combo for that is "control" (or "command" on a Mac) and "s")
+2.  Run the following code chunk to produce a pdf.
+3.  Both of these files are likely in the "Downloads" folder (unless you moved them). Check the contents of each file and upload both the Rmd and pdf files to Gradescope.
+
+```{r, echo=FALSE ,eval=FALSE,purl=FALSE}
+rstudioapi::documentSave(rstudioapi::getSourceEditorContext()$id)
+rmarkdown::render(rstudioapi::getSourceEditorContext()$path,output_format = "pdf_document")
+rstudioapi::viewer(gsub("\\.Rmd","\\.pdf",rstudioapi::getSourceEditorContext()$path))
+```

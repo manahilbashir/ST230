@@ -1,0 +1,105 @@
+---
+geometry: "left=1cm,right=1cm,top=1cm,bottom=1cm"
+header-includes:
+output: pdf_document
+---
+
+```{r setup0, echo=FALSE,purl=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+**Question 1 part (a)**
+
+```{r}
+# Use c() to define the following:
+X <- c(1, 2, 3, 4, 5)
+prob <- c(0.12, 0.23, 0.34, 0.25, 0.15)
+prob
+sum(prob)
+```
+
+**Question 1 part (b)**
+
+```{r}
+a <- c(1,2,3)
+b <- c(4,5,6)
+
+# multiplying `a` and `b` results in "position-wise" multiplication:
+a*b
+
+# squaring `a` results in squaring each value of `a`:
+a^2
+
+# applying `sum()` to `a` adds up the values of `a`:
+sum(a)
+
+# applying `sqrt()` to `sum(a)` adds up the values of `a` and determines the square root:
+sqrt(sum(a))
+```
+
+**Question 1 part (c)**
+
+```{r}
+expect <- sum(X * prob)
+vari <- sum((X - expect)^2 * prob)
+stand <- sqrt(vari)
+```
+
+**Question 1 part (d)**
+
+```{r}
+# barplot has a names.arg option for labeling purposes.
+barplot(prob,names.arg = X)
+```
+
+**Question 2**
+
+```{r}
+# (a) NOTE: In R, `c(3,4,5,6,7,8)` and `3:8` will produce the same result. 
+#           `a:b` can be used to produce integers from `a` to `b`.
+X1 <-  0:5
+# (b)
+prob_b <- dbinom(X1, 5, 0.5)
+# (c)
+prob_3 <- 1 - pbinom(3, 5, 0.5)
+# (d)
+sim_disc <- rbinom(1000, 5, 0.5)
+# (e)
+```
+
+**Question 2**
+
+```{r}
+hyper_prob <- phyper(1, 1000, 9000, 10)
+```
+
+**Question 3**
+
+```{r}
+mu <- 64.5
+sigma <- 2.5
+# (a) 
+prob_60_64 <- pnorm(64, mu, sigma) - pnorm(60, mu, sigma)
+# (b)
+prob_67 <- 1 - pnorm(67, mu, sigma)
+# (c)
+p_90 <- qnorm(0.9, mu, sigma)
+# (d)
+set.seed(123)
+sim_cts <- rnorm(1000, mu, sigma)
+# (e)
+mean(sim_cts)
+mu
+```
+
+### Submission Instructions
+
+1.  Save this file. (Quick key combo for that is "control" (or "command" on a Mac) and "s")
+2.  Run the following code chunk to produce a pdf.
+3.  Both of these files are likely in the "Downloads" folder (unless you moved them). Check the contents of each file and upload both the Rmd and pdf files to Gradescope.
+
+```{r, echo=FALSE ,eval=FALSE,purl=FALSE}
+rstudioapi::documentSave(rstudioapi::getSourceEditorContext()$id)
+rmarkdown::render(rstudioapi::getSourceEditorContext()$path,output_format = "pdf_document")
+rstudioapi::viewer(gsub("\\.Rmd","\\.pdf",rstudioapi::getSourceEditorContext()$path))
+```

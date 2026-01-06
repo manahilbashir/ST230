@@ -1,0 +1,112 @@
+---
+geometry: "left=1cm,right=1cm,top=1cm,bottom=1cm"
+header-includes:
+output: pdf_document
+---
+
+```{r setup0, echo=FALSE,purl=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+**Question 0**
+
+```{r}
+# This is a code chunk.
+# Furthermore, the '#' is used for comments and turns the text green.
+# Comments are not executed when running the contents of a code chunk.
+# Comments are important - read them!
+
+# Assign the value 2 to X:
+X <- 2
+# Display X
+X
+# Define Y as a vector containing the values 1,2,3,4
+Y <- c(1,2,3,4)
+# Display Y
+Y
+# Values of a vector need not be numbers.
+# For example, S is defined as the sample space from the "Family Planning" in the lecture notes:
+S <- c("MMM","FFF","MFM","FMM","MMF","MFF","FMF","FFM")
+# Display S
+S
+```
+
+**Question 1 part (a)**
+
+```{r}
+# Replace "NULL" with the proper code.
+A <- c("LLL","RRR","SSS")
+B <- c("RLS", "RSL", "LRS", "LSR", "SRL", "SLR")
+C <- c("RRL", "RRS", "RLR", "RSR", "LRR", "SRR")
+D <- c(C, "LLR", "LLS", "LRL", "LSL", "RLL", "SLL", "SSR", "SSL", "SRS", "SLS", "RSS", "LSS")
+
+```
+
+**Question 1 part (b)**
+
+```{r}
+# Replace "NULL" with the proper code.
+E <- union(C,D)
+G <- intersect(C,D)
+
+```
+
+**Question 2**
+
+```{r}
+# Type "?c" below and run the code chunk.
+?c
+```
+
+Read the description. What could the letter 'c' stand for in this function? **Type your answer below:** conctenate
+
+**Question 3 part (a)**
+
+```{r}
+# This code is a function that simulates n rolls of two fair multi-sided dice.
+# Each roll, the dice results are added together and stored in a vector called results.
+dice_roll <- function(sides=6,rolls=1) {
+  # initialize the results vector (empty to begin)
+  results <- c()
+  # initiate a for loop to run 'rolls' times
+  for (i in 1:rolls) {
+    # simulate the rolling of two die (randomly select two values from {1,2,3,..,'sides'})
+    roll <- sample(1:sides,size=2,replace=TRUE)
+    # sum the results of the roll (result will be a number between 2 and 2*sides) and put the total in the results vector
+    results <- c(results,sum(roll))
+  }
+  # print the results
+  return(results)
+}
+# Execute this code chunk before proceeding.
+```
+
+**Question 3 part (b)**
+
+```{r}
+# Test the dice_roll function below
+dice_roll(sides = 8, rolls = 1) 
+dice_roll(sides = 9, rolls = 10)
+
+```
+
+**Question 3 part (c)**
+
+```{r}
+# Replace "NULL" with the proper code.
+rolls_500 <- dice_roll(sides = 9, rolls = 500)
+table(rolls_500)
+barplot(table(rolls_500))
+```
+
+### Submission Instructions
+
+1.  Save this file. (Quick key combo for that is "control" (or "command" on a Mac) and "s")
+2.  Run the following code chunk to produce a pdf.
+3.  Both of these files are likely in the "Downloads" folder (unless you moved them). Check the contents of each file and upload both the Rmd and pdf files to Gradescope.
+
+```{r, echo=FALSE ,eval=FALSE,purl=FALSE}
+rstudioapi::documentSave(rstudioapi::getSourceEditorContext()$id)
+rmarkdown::render(rstudioapi::getSourceEditorContext()$path,output_format = "pdf_document")
+rstudioapi::viewer(gsub("\\.Rmd","\\.pdf",rstudioapi::getSourceEditorContext()$path))
+```

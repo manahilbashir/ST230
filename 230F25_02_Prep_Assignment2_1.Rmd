@@ -1,0 +1,177 @@
+---
+geometry: "left=1cm,right=1cm,top=1cm,bottom=1cm"
+header-includes:
+output: pdf_document
+---
+
+```{r setup0, echo=FALSE,purl=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+**Question 1**
+
+```{r}
+# Replace "NULL" with the proper code.
+total_pres <- factorial(5) / factorial(5 - 2)
+total_office <- factorial(5) / factorial(5 - 3)
+total_dean <- factorial(5) / (factorial(2) * factorial(5 - 2))
+
+```
+
+**Question 2**
+
+```{r}
+
+simulate_roulette <- function(n) {
+  # Define the wheel
+  wheel <- c("00",0:36)
+  
+  # Define colour mapping
+  red_numbers <- c(1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36)
+  black_numbers <- c(2, 4, 6, 8, 10, 11, 13, 15, 17, 20, 22, 24, 26, 28, 29, 31, 33, 35)
+  
+  # Simulate spins
+  results <- sample(wheel, size = n, replace = TRUE)
+  
+  # Assign colours
+  colours <- sapply(results, function(x) {
+    if (x %in% red_numbers) {
+      "Red"
+    } else if (x %in% black_numbers) {
+      "Black"
+    } else {
+      NA
+    }
+  })
+  
+  # Assign parity
+  parity <- sapply(results, function(x) {
+    if (x %in% red_numbers || x %in% black_numbers) {
+      if (as.numeric(x) %% 2 ==0) {
+        "Even"
+      } else {
+        "Odd"
+      }
+    } else {
+      NA
+    }
+  })
+  
+  # Assign dozens
+  dozen <- sapply(results, function(x) {
+    if (x %in% red_numbers || x %in% black_numbers) {
+      if (as.numeric(x) < 13) {
+        "1st 12"
+      } else if (as.numeric(x) < 27) {
+        "2nd 12"
+      } else {
+        "3rd 12"
+      }
+    } else {
+      NA
+    }
+  })
+  
+  # Assign column
+  column <- sapply(results, function(x) {
+    if (as.numeric(x) %in% seq(1,34,3)) {
+      "1st Column"
+    } else if (as.numeric(x) %in% seq(2,35,3)) {
+      "2nd Column"
+    } else if (as.numeric(x) %in% seq(3,36,3)) {
+      "3rd Column"
+    } else {
+      NA
+    }
+  })
+  
+  # Assign high_low
+  high_low <- sapply(results, function(x) {
+    if (as.numeric(x) %in% 19:36) {
+      "High"
+    } else if (as.numeric(x) %in% 1:18) {
+      "Low"
+    } else {
+      NA
+    }
+  })
+  
+  # Create data frame
+  data.frame(Number = results, Colour = colours, Parity = parity, High_Low = high_low, Dozen = dozen, Column = column)
+}
+# Execute this code chunk before proceeding.
+```
+
+**Question 2 part (a)**
+
+```{r,out.width='30%',fig.align='center'}
+# Execute the simulate_roulette function and store the results appropriately below
+roulette_plays <- simulate_roulette(500)
+# Create a table:
+table(roulette_plays$Column)
+# Create a barplot of the table:
+barplot(table(roulette_plays$Column))
+```
+
+**Question 2 part (b)**
+
+```{r}
+# Calculate the described probabilites and consider the results.
+simulated <- NULL
+theoretical <- NULL
+
+```
+
+**Question 3**
+
+```{r}
+# Code below creates a function simulating the game.
+prize <- function(CHOICE = 1,CHANGE = "N",PLAYS = 1) {
+  # Define an empty vector to store the results of the game:
+  results <- c()
+  # For the number of PLAYS, play the game
+  for (i in 1:PLAYS) {
+  # Randomly select a door for the car to be behind:
+  car <- sample(1:3,1)
+  if (CHOICE!=car & CHANGE == "Y") {
+      results<- c(results,"WIN_CAR")
+    } else if (CHOICE==car & CHANGE=="N") {
+      results<- c(results,"WIN_CAR")
+    } else {
+      results<- c(results,"WIN_GOAT")
+    }
+  }
+  return(results)
+}
+# Execute this code chunk before proceeding.
+```
+
+**Question 3 part (a)**
+
+```{r}
+# Run a single simulation of the game. View and understand the results.
+prize(CHOICE = 2, CHANGE = "N", PLAYS = 1)
+```
+
+**Question 3 part (b)**
+
+```{r}
+# Run ten simulation of the game.
+sims <- prize(CHOICE = 2, CHANGE = "N", PLAYS = 10)
+# Create a table:
+table(sims)
+# Create a barplot of the table:
+barplot(table(sims))
+```
+
+### Submission Instructions
+
+1.  Save this file. (Quick key combo for that is "control" (or "command" on a Mac) and "s")
+2.  Run the following code chunk to produce a pdf.
+3.  Both of these files are likely in the "Downloads" folder (unless you moved them). Check the contents of each file and upload both the Rmd and pdf files to Gradescope.
+
+```{r, echo=FALSE ,eval=FALSE,purl=FALSE}
+rstudioapi::documentSave(rstudioapi::getSourceEditorContext()$id)
+rmarkdown::render(rstudioapi::getSourceEditorContext()$path,output_format = "pdf_document")
+rstudioapi::viewer(gsub("\\.Rmd","\\.pdf",rstudioapi::getSourceEditorContext()$path))
+```

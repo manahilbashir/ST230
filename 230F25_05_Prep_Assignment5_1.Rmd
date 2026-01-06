@@ -1,0 +1,56 @@
+---
+geometry: "left=1cm,right=1cm,top=1cm,bottom=1cm"
+header-includes:
+output: pdf_document
+---
+
+```{r setup0, echo=FALSE,purl=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+**Question 1 part (a)**
+
+```{r}
+crit_val_95 <- qnorm(0.05 / 2, lower.tail = FALSE)
+crit_val_97 <- qnorm(0.03 / 2, lower.tail = FALSE)
+
+```
+
+**Question 1 part (b)**
+
+```{r}
+n <- 31
+x_bar <- 105.84
+sigma <- 15
+z <- qnorm(0.05 / 2, lower.tail = FALSE)  # 95% CI
+
+m <- z * sigma / sqrt(n)
+lower.bound <- x_bar - m
+upper.bound <- x_bar + m
+
+```
+
+**Question 2**
+
+```{r}
+mu0 <- 100
+x_bar <- 105.84
+sigma <- 15
+n <- 31
+
+observed.test.statistic <- (x_bar - mu0) / (sigma / sqrt(n))
+p.value <- 2 * pnorm(-abs(observed.test.statistic))
+
+```
+
+### Submission Instructions
+
+1.  Save this file. (Quick key combo for that is "control" (or "command" on a Mac) and "s")
+2.  Run the following code chunk to produce a pdf.
+3.  Both of these files are likely in the "Downloads" folder (unless you moved them). Check the contents of each file and upload both the Rmd and pdf files to Gradescope.
+
+```{r, echo=FALSE ,eval=FALSE,purl=FALSE}
+rstudioapi::documentSave(rstudioapi::getSourceEditorContext()$id)
+rmarkdown::render(rstudioapi::getSourceEditorContext()$path,output_format = "pdf_document")
+rstudioapi::viewer(gsub("\\.Rmd","\\.pdf",rstudioapi::getSourceEditorContext()$path))
+```
